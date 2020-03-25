@@ -1,0 +1,92 @@
+﻿@model IEnumerable<Stream.Schedule.Models.ScheduleItem>
+@{
+    Layout = null;
+    ViewData["Title"] = "Schedule";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link href="https://fonts.googleapis.com/css?family=Alfa+Slab+One&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Alfa Slab One', cursive;
+        }
+
+        #schedule {
+            list-style: none;
+        }
+
+        li {
+            transition: all 1s ease-in;
+            min-height: 80px;
+            font-size: 16pt;
+            color: white;
+            text-shadow: black 0px 0px 10px;
+        }
+
+            li span.timespan {
+                font-size: 13pt;
+                font-weight: bold;
+                font-family: Verdana sans-serif;
+            }
+
+            li.selected {
+                font-size: 19pt;
+                color: rgb(0,172,236);
+                /*text-shadow: white 0px 0px 10px;*/
+            }
+    </style>
+</head>
+<body>
+    <div>
+        <ul id="schedule">
+        </ul>
+    </div>
+
+    <script src="~/js/jquery-3.4.1.min.js"></script>
+    <script src="~/js/moment-with-locales.js"></script>
+
+    <script type="text/javascript">
+
+        moment.locale("es");
+        var currentConfig = @Html.Raw(Json.Serialize(Model.ToList()));
+        $(document).ready(function () {
+
+            $.each(currentConfig, function (indx, item) {
+                var from = moment(item.from).format("LT");
+                var to = moment(item.to).format("LT");
+                $("#schedule").append("<li id='sched_" + indx + "'><span class='timespan'>" + from + " - " + to + "</span><br>" + item.title + "<span id='schedfrom_" + indx + "'></span></li>");
+                    });
+
+                    updateItems();
+
+                    setInterval(function () {
+
+                        updateItems();
+
+                    }, 5000);
+                });
+
+        function updateItems() {
+            $.each(currentConfig, function (indx, item) {
+                var nowDate = moment(new Date());
+                //var from = moment(nowDate.toISOString().split("T")[0] + " " + item.from);
+                var from = moment(item.from);
+
+                if (from <= new Date()) {
+
+                    if ($("#sched_" + indx).hasClass("selected")) return;
+
+                    $("#schedule li.selected").removeClass("selected");
+                    $("#sched_" + indx).addClass("selected");
+                }
+
+                //var text = moment.duration(.humanize();
+                //var text =  .fromNow();
+                //$("#schedfrom_" + indx).html("(" + text + ")");
+            });
+        }
+    </script>
+</body>
+</html>
