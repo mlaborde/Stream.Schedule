@@ -26,9 +26,9 @@ namespace Stream.Schedule
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-
+            //System.Diagnostics.Debugger.Launch();
             services.AddDbContext<StreamDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("ScheduleConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
