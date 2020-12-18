@@ -2,6 +2,8 @@
 @{
     Layout = null;
     ViewData["Title"] = "Schedule";
+    var align = (string)ViewBag.Align;
+    if (string.IsNullOrEmpty(align)) align = "left";
 }
 <!DOCTYPE html>
 <html>
@@ -23,6 +25,7 @@
             font-size: 16pt;
             color: white;
             text-shadow: black 0px 0px 10px;
+            text-align: @align;
         }
 
             li span.timespan {

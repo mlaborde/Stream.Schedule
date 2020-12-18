@@ -38,6 +38,7 @@ namespace Stream.Schedule.Controllers
 
         public async Task<IActionResult> Schedule()
         {
+            ViewBag.Align = Request.Query["align"];
             return View(await _context.Schedules.Where(p => p.From > DateTime.Today && p.From < DateTime.Today.AddDays(1)).ToListAsync());
         }
 
